@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "23532912929",
+    "project_id": "mpitfinal-161e4",
+    "storage_bucket": "mpitfinal-161e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23532912929:android:66d96f6865e369d1193e60",
+        "android_client_info": {
+          "package_name": "com.example.mpit2023"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8mDVZzF34Ko_4ApELl0ffY-H4ctBDfdI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
