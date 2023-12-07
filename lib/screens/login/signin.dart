@@ -3,6 +3,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mpit2023/helpers/constans.dart';
 import 'package:mpit2023/screens/home_screen.dart';
 import 'package:mpit2023/screens/login/login.dart';
@@ -78,27 +79,40 @@ class _SignInScreenState extends State<SignInScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(
                       height: 80,
                     ),
-                    Image.asset(
-                      'lib/assets/images/Frame 1522.png',
+                    Center(
+                      child: Text(
+                        'Вход',
+                        style: titleStyle,
+                      ),
                     ),
                     const SizedBox(
-                      height: 24,
+                      height: 42,
                     ),
-                    Text(
-                      'Добро пожаловать!',
-                      style: titleStyle,
+                    Center(child: SvgPicture.asset('lib/assets/images/logo.svg')),
+                    const SizedBox(
+                      height: 42,
+                    ),
+                    Center(
+                      child: Text('Войдите в аккаунт для дальнейшего\nиспользования сервиса',
+                          style: subtitleStyle, textAlign: TextAlign.center,),
                     ),
                     const SizedBox(
-                      height: 24,
+                      height: 16,
                     ),
-                    Text('Войдите в систему для доступа к своему аккаунту',
-                        style: subtitleStyle),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 13.0),
+                      child: Text(
+                        'Почта',
+                        style: buttonBlackTextStyle,
+                      ),
+                    ),
                     const SizedBox(
-                      height: 24,
+                      height: 4,
                     ),
                     TextFormField(
                         style: fieldTextStyle,
@@ -109,9 +123,19 @@ class _SignInScreenState extends State<SignInScreen> {
                             email != null && !EmailValidator.validate(email)
                                 ? 'Enter correct Email'
                                 : null,
-                        decoration: loginFieldDecoration('Почта')),
+                        decoration: loginFieldDecoration('lib/assets/images/icon_mail.svg')),
                     const SizedBox(
-                      height: 24,
+                      height: 8,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 13.0),
+                      child: Text(
+                        'Пароль',
+                        style: buttonBlackTextStyle,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 4,
                     ),
                     TextFormField(
                         obscureText: isHiddenPassword,
@@ -122,30 +146,42 @@ class _SignInScreenState extends State<SignInScreen> {
                         validator: (value) => value != null && value.length < 6
                             ? 'Minimum 6 characters'
                             : null,
-                        decoration: loginFieldDecoration('Пароль')),
+                        decoration: loginFieldDecoration('lib/assets/images/icon_key.svg')),
                     const SizedBox(
                       height: 24,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            FadeRoute(page: const ResetPasswordScreen()));
-                      },
-                      child: Text('Забыли пароль?', style: afterFieldTextStyle),
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              FadeRoute(page: const ResetPasswordScreen()));
+                        },
+                        child: Text('Забыли пароль?', style: afterFieldTextStyle),
+                      ),
                     ),
                     const SizedBox(
                       height: 24,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context, FadeRoute(page: const LoginScreen()));
-                      },
-                      child: Text('Новый пользователь? Зарегистрируйся',
-                          style: buttonBlackTextStyle),
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context, FadeRoute(page: const LoginScreen()));
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Здесь в первый раз? ',
+                                style: buttonBlackTextStyle),
+                                Text('Зарегистрируйтесь',
+                                style: buttonBlueTextStyle),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
+                SvgPicture.asset('lib/assets/images/Heavy Waves.svg'),
                 ElevatedButton(
                   onPressed: login,
                   style: loginButtonStyle,
@@ -153,7 +189,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     height: 53,
                     width: double.infinity,
                     child:
-                        Center(child: Text('Дальше', style: buttonTextStyle)),
+                        Center(child: Text('Войти', style: buttonTextStyle)),
                   ),
                 ),
               ]),

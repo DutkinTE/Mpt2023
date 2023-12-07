@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mpit2023/helpers/constans.dart';
 import 'package:mpit2023/scripts/snack_bar.dart';
 import 'package:email_validator/email_validator.dart';
@@ -74,12 +75,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 80),
+            padding: const EdgeInsets.only(left: 8.0, top: 70),
             child: FloatingActionButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.transparent,
               elevation: 0,
               child: const Icon(
                 CupertinoIcons.arrow_left,
@@ -95,35 +96,46 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(
-                          height: 80,
+                          height: 150,
                         ),
-                        Image.asset(
-                          'lib/assets/images/reset.png',
-                        ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        Text(
-                          'Восстановление\nпароля',
-                          style: titleStyle,
-                          textAlign: TextAlign.center,
+                        Center(
+                          child: Text(
+                            'Восстановление пароля',
+                            style: titleStyle,
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                         const SizedBox(
-                          height: 24,
+                          height: 42,
                         ),
-                        Text(
-                          'Пожалуйста, укажите email или телефон, который вы использовали для входа в приложение  ',
-                          style: subtitleStyle,
-                          textAlign: TextAlign.center,
+                        Center(
+                            child:
+                                SvgPicture.asset('lib/assets/images/logo.svg')),
+                        const SizedBox(
+                          height: 42,
+                        ),
+                        Center(
+                          child: Text(
+                            'Введите вашу почту для дальнейшего\nвосстановления пароля',
+                            style: subtitleStyle,
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                         const SizedBox(
-                          height: 24,
+                          height: 16,
                         ),
-                        Text('Почта', style: underFieldTextStyle),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 13.0),
+                          child: Text(
+                            'Почта',
+                            style: buttonBlackTextStyle,
+                          ),
+                        ),
                         const SizedBox(
-                          height: 8,
+                          height: 4,
                         ),
                         TextFormField(
                             style: fieldTextStyle,
@@ -134,9 +146,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 email != null && !EmailValidator.validate(email)
                                     ? 'Enter correct Email'
                                     : null,
-                            decoration: loginFieldDecoration('Почта')),
+                            decoration: loginFieldDecoration('lib/assets/images/icon_mail.svg')),
                       ],
                     ),
+                    SvgPicture.asset('lib/assets/images/Heavy Waves.svg'),
                     ElevatedButton(
                       onPressed: resetPassword,
                       style: loginButtonStyle,
@@ -144,7 +157,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         height: 53,
                         width: double.infinity,
                         child: Center(
-                            child: Text('Дальше', style: buttonTextStyle)),
+                            child: Text('Отправить еще раз', style: buttonTextStyle)),
                       ),
                     ),
                   ]),

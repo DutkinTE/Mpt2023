@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mpit2023/screens/home_screen.dart';
+import 'package:mpit2023/screens/loader.dart';
 import 'package:mpit2023/screens/login/firebase_stream.dart';
 import 'package:mpit2023/screens/login/login.dart';
 import 'package:mpit2023/screens/login/reset_password.dart';
@@ -26,7 +27,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       routes: {
+        '/loader': (context) => const LoaderScreen(),
         '/': (context) => const FirebaseStream(),
         '/home': (context) => const HomeScreen(),
         '/login': (context) => const LoginScreen(),
@@ -34,7 +37,7 @@ class MyApp extends StatelessWidget {
         '/reset_password': (context) => const ResetPasswordScreen(),
         '/verify_email': (context) => const VerifyEmailScreen(),
       },
-      initialRoute: '/',
+      initialRoute: '/loader',
     );
   }
 }

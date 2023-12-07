@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mpit2023/helpers/constans.dart';
 import 'package:mpit2023/screens/check_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,12 +81,12 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 80),
+            padding: const EdgeInsets.only(left: 8.0, top: 80),
             child: FloatingActionButton(
               onPressed: () {
                 Navigator.push(context, FadeRoute(page: const LoginScreen()));
               },
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.transparent,
               elevation: 0,
               child: const Icon(
                 CupertinoIcons.arrow_left,
@@ -100,23 +101,20 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
               children: [
               Column(children: [
           const SizedBox(
-                height: 80,
-              ),
-              Image.asset(
-                'lib/assets/images/ver.png',
-              ),
-              const SizedBox(
-                height: 24,
+                height: 150,
               ),
               Text('Подтверждение', style: titleStyle, textAlign: TextAlign.center,),
               const SizedBox(
-                height: 24,
-              ),
-              Text('Мы отправили письмо с подтверждением на электронную почту', style: subtitleStyle, textAlign: TextAlign.center,),
+                          height: 42,
+                        ),
+                        Center(
+                            child:
+                                SvgPicture.asset('lib/assets/images/logo.svg')),
+                        const SizedBox(
+                          height: 42,
+                        ),
+              Text('Мы отправили письмо с подтверждением\nна электронную почту', style: subtitleStyle, textAlign: TextAlign.center,),
               
-              const SizedBox(
-                height: 24,
-              ),
               ],),
               
               ElevatedButton(

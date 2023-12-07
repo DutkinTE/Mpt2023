@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 TextStyle titleStyle = const TextStyle(
     color: Colors.black,
@@ -13,8 +14,14 @@ TextStyle subtitleStyle = const TextStyle(
     fontFamily: 'Girloy');
 
 TextStyle buttonTextStyle = const TextStyle(
-    color: Color.fromRGBO(142, 144, 151, 1),
+    color: Colors.white,
     fontSize: 16,
+    fontWeight: FontWeight.w600,
+    fontFamily: 'Girloy');
+
+TextStyle buttonBlueTextStyle = const TextStyle(
+    color: Color.fromRGBO(21, 112, 239, 1),
+    fontSize: 12,
     fontWeight: FontWeight.w600,
     fontFamily: 'Girloy');
 
@@ -42,33 +49,38 @@ TextStyle underFieldTextStyle = const TextStyle(
     fontWeight: FontWeight.w400,
     fontFamily: 'Girloy');
 
-InputDecoration loginFieldDecoration(String label) {
+InputDecoration loginFieldDecoration(String image) {
   return InputDecoration(
-      labelStyle: const TextStyle(
-          color: Color.fromRGBO(142, 144, 151, 1),
-          fontSize: 12,
-          fontWeight: FontWeight.w400,
-          fontFamily: 'Girloy'),
-      label: Text(label),
-      contentPadding: const EdgeInsets.only(bottom: 5, left: 10, top: 5),
+    prefixIcon: SvgPicture.asset(image, fit: BoxFit.none,),
+      contentPadding: const EdgeInsets.only(bottom: 5, top: 5),
       enabledBorder: const OutlineInputBorder(
           borderSide:
               BorderSide(color: Color.fromRGBO(142, 144, 151, 1), width: 0.5),
-          borderRadius: BorderRadius.all(Radius.circular(12))),
+          borderRadius: BorderRadius.all(Radius.circular(24))),
       border: const OutlineInputBorder(
           borderSide:
               BorderSide(color: Color.fromRGBO(142, 144, 151, 1), width: 0.5),
-          borderRadius: BorderRadius.all(Radius.circular(12))));
+          borderRadius: BorderRadius.all(Radius.circular(24))));
 }
 
 ButtonStyle loginButtonStyle = ButtonStyle(
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
-                    side: const BorderSide(
-                        color: Color.fromRGBO(142, 144, 151, 1), width: 1),
+                    side: BorderSide.none,
                     borderRadius: BorderRadius.circular(48),
                   ),
                 ),
                 elevation: MaterialStateProperty.all(0),
-                backgroundColor: MaterialStateProperty.all<Color?>(const Color.fromRGBO(238, 239, 241, 1)),
+                backgroundColor: MaterialStateProperty.all<Color?>(const Color.fromRGBO(21, 112, 239, 1)),
               );
+
+double height = 100;
+double height2 = 0;
+double height3 = 0;
+String currentCity = 'Москва';
+
+Widget splashContent = Container();
+List pages = [];
+Widget genDesc = Container();
+List blackList = [];
+List whiteList = [];

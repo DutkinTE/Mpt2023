@@ -44,6 +44,11 @@ dependencies:
   yandex_mapkit: ^3.3.3
   geolocator: ^10.1.0
   permission_handler: ^11.0.1
+  path_provider: ^2.1.1
+  location: ^5.0.3
+  intl: ^0.18.1
+  download: ^1.0.0
+  smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
   flutter_test:

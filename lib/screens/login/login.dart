@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mpit2023/helpers/constans.dart';
 import 'package:mpit2023/screens/login/signin.dart';
 import 'package:mpit2023/scripts/slider_animation.dart';
@@ -18,14 +19,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isHiddenPassword = true;
-  TextEditingController loginTextInputController = TextEditingController();
   TextEditingController emailTextInputController = TextEditingController();
   TextEditingController passwordTextInputController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    loginTextInputController.dispose();
     emailTextInputController.dispose();
     passwordTextInputController.dispose();
 
@@ -98,38 +97,41 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
-                  
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(
                       height: 80,
                     ),
-                    Image.asset(
-                      'lib/assets/images/Frame 152.png',
+                    Center(
+                      child: Text(
+                        'Регистрация',
+                        style: titleStyle,
+                      ),
                     ),
                     const SizedBox(
-                      height: 24,
+                      height: 42,
                     ),
-                    Text(
-                      'Добро пожаловать!',
-                      style: titleStyle,
+                    Center(child: SvgPicture.asset('lib/assets/images/logo.svg')),
+                    const SizedBox(
+                      height: 42,
+                    ),
+                    Center(
+                      child: Text(
+                          'Создайте аккаунт для дальнейшего\nиспользования сервиса',
+                          style: subtitleStyle, textAlign: TextAlign.center,),
                     ),
                     const SizedBox(
-                      height: 24,
+                      height: 16,
                     ),
-                    Text('Создайте вашу учетную запись', style: subtitleStyle),
-                    const SizedBox(
-                      height: 24,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 13.0),
+                      child: Text(
+                        'Почта',
+                        style: buttonBlackTextStyle,
+                      ),
                     ),
-                    TextFormField(
-                        style: fieldTextStyle,
-                        keyboardType: TextInputType.name,
-                        autocorrect: false,
-                        controller: loginTextInputController,
-                        validator: (email) =>
-                            email == null ? 'Введите Логин' : null,
-                        decoration: loginFieldDecoration('Логин')),
                     const SizedBox(
-                      height: 24,
+                      height: 4,
                     ),
                     TextFormField(
                         style: fieldTextStyle,
@@ -140,9 +142,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             email != null && !EmailValidator.validate(email)
                                 ? 'Введите правильный Email'
                                 : null,
-                        decoration: loginFieldDecoration('Почта')),
+                        decoration: loginFieldDecoration(
+                            'lib/assets/images/icon_mail.svg')),
                     const SizedBox(
-                      height: 24,
+                      height: 8,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 13.0),
+                      child: Text(
+                        'Пароль',
+                        style: buttonBlackTextStyle,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 4,
                     ),
                     TextFormField(
                         obscureText: isHiddenPassword,
@@ -153,28 +166,41 @@ class _LoginScreenState extends State<LoginScreen> {
                         validator: (value) => value != null && value.length < 6
                             ? 'Минимум 6 символов'
                             : null,
-                        decoration: loginFieldDecoration('Пароль')),
+                        decoration: loginFieldDecoration(
+                            'lib/assets/images/icon_key.svg')),
                     const SizedBox(
                       height: 24,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context, FadeRoute(page: const SignInScreen()));
-                      },
-                      child: Text('Есть существующий аккаунт? Войдите',
-                          style: buttonBlackTextStyle),
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context, FadeRoute(page: const SignInScreen()));
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Уже есть аккаунт? ',
+                                style: buttonBlackTextStyle),
+                                Text('Войдите',
+                                style: buttonBlueTextStyle),
+                                
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
+                SvgPicture.asset('lib/assets/images/Heavy Waves.svg'),
                 ElevatedButton(
                     onPressed: signUp,
                     style: loginButtonStyle,
                     child: SizedBox(
                       height: 53,
                       width: double.infinity,
-                      child:
-                          Center(child: Text('Дальше', style: buttonTextStyle)),
+                      child: Center(
+                          child: Text('Зарегистрироваться',
+                              style: buttonTextStyle)),
                     )),
               ]),
         ),
