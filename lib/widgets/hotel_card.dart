@@ -1,9 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mpit2023/helpers/constans.dart';
-import 'package:mpit2023/screens/home_screen.dart';
-import 'package:mpit2023/widgets/hotel_desc.dart';
 import 'package:mpit2023/widgets/stars.dart';
 
 class HotelCard extends StatefulWidget {

@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:download/download.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:mpit2023/helpers/constans.dart';
+import 'package:mpit2023/widgets/stars.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,17 +40,17 @@ class _HotelDescState extends State<HotelDesc> {
     List<String> headers = json2.keys.toList();
 
     // Create a string to hold the CSV data
-    String csvData = headers.join(",") + "\n";
-    print("csv Data " + csvData);
+    String csvData = "${headers.join(",")}\n";
+    print("csv Data $csvData");
     // Loop through the objects and add their values to the CSV string
     List<String> values = [];
     for (String header in headers) {
       if (header == 'tags') {}
       values.add(json2[header].toString());
     }
-    csvData += values.join(",") + "\n";
+    csvData += "${values.join(",")}\n";
 
-    print("csv Data " + csvData);
+    print("csv Data $csvData");
     // Generate a formatted timestamp for the filename
     final formattedDateTime =
         DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
@@ -64,6 +63,7 @@ class _HotelDescState extends State<HotelDesc> {
     Stream<int> csvStream = Stream.fromIterable(csvBytes.map((byte) => byte));
     // Download the CSV file with the custom filename
     await download(csvStream, fileName);
+    print('complete');
   }
 
   String dropdownValue = "normal";
@@ -74,12 +74,11 @@ class _HotelDescState extends State<HotelDesc> {
     setState(() async {
       pageController.jumpToPage(2);
       setState(() {
-        genDesc = Center(
+        genDesc = const Center(
           child: CircularProgressIndicator(),
         );
       });
 
-      print(style);
       var url = Uri.parse('http://86.110.194.115:8000/generate-description');
       var response = await http.post(
         url,
@@ -99,8 +98,6 @@ class _HotelDescState extends State<HotelDesc> {
       setState(() {
         descList = json.decode(utf8.decode(response.bodyBytes));
       });
-      print(response.statusCode);
-      print(descList.runtimeType);
       setState(() {
         genDesc = ListView(padding: const EdgeInsets.all(16), children: [
           const Text(
@@ -119,11 +116,91 @@ class _HotelDescState extends State<HotelDesc> {
                   fontSize: 12,
                   fontWeight: FontWeight.w500)),
         ]);
-        print(descList['generated_description']);
       });
     });
   }
 
+  List<dynamic> revList = [];
+  Widget rev = Container();
+  Future<void> getRev(String hotelAddress, String hotelName) async {
+    setState(() async {
+      setState(() {
+        rev = const Padding(
+          padding: EdgeInsets.only(top: 50.0),
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      });
+      var url = Uri.parse('http://86.110.194.115:8000/review');
+      var response = await http.post(
+        url,
+        body: json.encode(<String, dynamic>{
+          "hotel_name": hotelName,
+          "hotel_address": hotelAddress,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      setState(() {
+        revList = json.decode(utf8.decode(response.bodyBytes));
+        rev = Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.only(bottom: 0),
+            shrinkWrap: true,
+            itemCount: revList.length,
+            itemBuilder: (context, index) {
+              int rating = double.parse(
+                      revList[index]['rating'].toString().replaceAll(',', '.'))
+                  .round();
+              return Column(
+                children: [
+                  Container(
+                      padding: const EdgeInsets.all(12),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: const Color.fromRGBO(242, 244, 247, 1)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            revList[index]['date'],
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                fontFamily: 'Gilroy'),
+                          ),
+                          const SizedBox(height: 16,),
+                          StarsWidget(rating: rating),
+                          const SizedBox(height: 16,),
+                          Text(
+                            revList[index]['text'],
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                fontFamily: 'Gilroy'),
+                          ),
+                        ],
+                      )),
+                  const SizedBox(
+                    height: 16,
+                  )
+                ],
+              );
+            },
+          ),
+        );
+      });
+    });
+  }
+
+  int pageIndex = 0;
   @override
   Widget build(BuildContext context) {
     pages = [
@@ -184,7 +261,7 @@ class _HotelDescState extends State<HotelDesc> {
                             });
                           },
                           child: Container(
-                              padding: EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                   border: Border.all(width: 1),
                                   borderRadius: BorderRadius.circular(20)),
@@ -229,7 +306,7 @@ class _HotelDescState extends State<HotelDesc> {
                             });
                           },
                           child: Container(
-                              padding: EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                   border: Border.all(width: 1),
                                   borderRadius: BorderRadius.circular(20)),
@@ -325,38 +402,27 @@ class _HotelDescState extends State<HotelDesc> {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      setState(() {
+                        pageIndex = 0;
+                      });
+                    },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: const Color.fromRGBO(21, 112, 239, 1),
+                          border: Border.all(
+                              color: const Color.fromRGBO(234, 236, 240, 1)),
+                          color: (pageIndex == 0)
+                              ? const Color.fromRGBO(21, 112, 239, 1)
+                              : Colors.white,
                           borderRadius: BorderRadius.circular(24)),
-                      child: const Padding(
-                          padding: EdgeInsets.only(
+                      child: Padding(
+                          padding: const EdgeInsets.only(
                               top: 8, bottom: 8, left: 16, right: 16),
                           child: Text('Обзор',
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Gilroy',
-                                  fontWeight: FontWeight.w600))),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: const Color.fromRGBO(234, 236, 240, 1)),
-                          borderRadius: BorderRadius.circular(24)),
-                      child: const Padding(
-                          padding: EdgeInsets.only(
-                              top: 8, bottom: 8, left: 16, right: 16),
-                          child: Text('Отзывы',
-                              style: TextStyle(
-                                  color: Color.fromRGBO(152, 162, 179, 1),
+                                  color: (pageIndex == 0)
+                                      ? Colors.white
+                                      : const Color.fromRGBO(152, 162, 179, 1),
                                   fontFamily: 'Gilroy',
                                   fontWeight: FontWeight.w600))),
                     ),
@@ -366,7 +432,37 @@ class _HotelDescState extends State<HotelDesc> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      // jsonToCsvAndDownloadAction(json);
+                      setState(() {
+                        pageIndex = 1;
+                        getRev(widget.title, widget.address);
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: (pageIndex == 1)
+                              ? const Color.fromRGBO(21, 112, 239, 1)
+                              : Colors.white,
+                          border: Border.all(
+                              color: const Color.fromRGBO(234, 236, 240, 1)),
+                          borderRadius: BorderRadius.circular(24)),
+                      child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 8, bottom: 8, left: 16, right: 16),
+                          child: Text('Отзывы',
+                              style: TextStyle(
+                                  color: (pageIndex == 1)
+                                      ? Colors.white
+                                      : const Color.fromRGBO(152, 162, 179, 1),
+                                  fontFamily: 'Gilroy',
+                                  fontWeight: FontWeight.w600))),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      jsonToCsvAndDownloadAction(widget.json);
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -386,88 +482,96 @@ class _HotelDescState extends State<HotelDesc> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 16,
-              ),
-              Text(
-                widget.title,
-                style: const TextStyle(
-                    fontFamily: 'Gilroy',
-                    fontSize: 21,
-                    fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.location_on,
-                    color: Color.fromRGBO(21, 112, 239, 1),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width - 64,
-                    child: Text(
-                      widget.address,
-                      maxLines: 3,
-                      style: const TextStyle(
-                          fontFamily: 'Gilroy',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Color.fromRGBO(152, 162, 179, 1)),
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Text(
-                'Описание',
-                style: TextStyle(
-                    fontFamily: 'Gilroy',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                height: 350,
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                          width: 1,
-                          color: const Color.fromRGBO(234, 236, 240, 1))),
-                  child: PageView.builder(
-                    controller: pageController,
-                    itemCount: 3,
-                    itemBuilder: (_, index) {
-                      return pages[index];
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Center(
-                child: SmoothPageIndicator(
-                  controller: pageController, // PageController
-                  count: 3,
-                  effect: const ExpandingDotsEffect(
-                      dotHeight: 6,
-                      dotWidth: 6,
-                      radius: 13,
-                      dotColor: Color.fromRGBO(152, 162, 179, 1),
-                      activeDotColor: Color.fromRGBO(
-                          21, 112, 239, 1)), // your preferred effect
-                ),
-              )
+              (pageIndex == 0)
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          widget.title,
+                          style: const TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontSize: 21,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.location_on,
+                              color: Color.fromRGBO(21, 112, 239, 1),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width - 64,
+                              child: Text(
+                                widget.address,
+                                maxLines: 3,
+                                style: const TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromRGBO(152, 162, 179, 1)),
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        const Text(
+                          'Описание',
+                          style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        SizedBox(
+                          height: 350,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                    width: 1,
+                                    color: const Color.fromRGBO(
+                                        234, 236, 240, 1))),
+                            child: PageView.builder(
+                              controller: pageController,
+                              itemCount: 3,
+                              itemBuilder: (_, index) {
+                                return pages[index];
+                              },
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Center(
+                          child: SmoothPageIndicator(
+                            controller: pageController, // PageController
+                            count: 3,
+                            effect: const ExpandingDotsEffect(
+                                dotHeight: 6,
+                                dotWidth: 6,
+                                radius: 13,
+                                dotColor: Color.fromRGBO(152, 162, 179, 1),
+                                activeDotColor: Color.fromRGBO(
+                                    21, 112, 239, 1)), // your preferred effect
+                          ),
+                        )
+                      ],
+                    )
+                  : rev
             ],
           ),
         )

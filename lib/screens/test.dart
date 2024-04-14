@@ -14,18 +14,15 @@ class TestWidget extends StatefulWidget {
 
 class _TestWidgetState extends State<TestWidget> {
   Future jsonToCsvAndDownloadAction(String jsonString) async {
-    print('accept3');
     // convert from json to csv and download it, without using csv library
     List<Map<String, dynamic>> jsonList =
         jsonDecode(jsonString).cast<Map<String, dynamic>>();
 
-    print(jsonList);
     // Extract the headers from the first object
     List<String> headers = jsonList[0].keys.toList();
 
     // Create a string to hold the CSV data
-    String csvData = headers.join(",") + "\n";
-    print("csv Data " + csvData);
+    String csvData = "${headers.join(",")}\n";
     // Loop through the objects and add their values to the CSV string
     for (Map<String, dynamic> json in jsonList) {
       List<String> values = [];
@@ -35,15 +32,13 @@ class _TestWidgetState extends State<TestWidget> {
         }
         values.add(json[header].toString());
       }
-      csvData += values.join(",") + "\n";
+      csvData += "${values.join(",")}\n";
     }
-    print("csv Data "+ csvData);
     // Generate a formatted timestamp for the filename
     final formattedDateTime =
         DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
     // Custom filename with date, time, and "custom_name"
     final fileName = 'custom_name_$formattedDateTime.csv';
-    print(fileName);
     // Convert the CSV string to a list of bytes (Uint8List)
     Uint8List csvBytes = Uint8List.fromList(csvData.codeUnits);
     // Convert the Uint8List to a Stream<int>

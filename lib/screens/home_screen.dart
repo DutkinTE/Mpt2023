@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mpit2023/data/city_list.dart';
 import 'package:mpit2023/helpers/constans.dart';
-import 'package:mpit2023/screens/login/firebase_stream.dart';
 import 'package:mpit2023/screens/login/login.dart';
 import 'package:mpit2023/scripts/slider_animation.dart';
 import 'package:mpit2023/widgets/hotel_card.dart';
@@ -27,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final formKey = GlobalKey<FormState>();
   late YandexMapController controller;
   GlobalKey mapKey = GlobalKey();
-  
 
   Future<void> signOut() async {
     setState(() {
@@ -38,8 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<bool> get locationPermissionNotGranted async =>
       !(await Permission.location.request().isGranted);
-
-  
 
   List<dynamic> searchList = [];
   Map<String, dynamic> descList = {};
@@ -62,8 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
           getDesc(hotelName, hotelCity);
         }
       });
-      print(response.statusCode);
-      print(searchList);
     });
   }
 
@@ -82,8 +75,6 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         descList = json.decode(utf8.decode(response.bodyBytes));
       });
-      print(response.statusCode);
-      print(descList);
       setState(() {
         int rating = double.parse(
                 descList['star_rating'].toString().replaceAll(',', '.'))
@@ -194,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         setState(() {
                           height3 = MediaQuery.of(context).size.height * 0.8;
                           height = height3;
-                          bottomDesc = Center(
+                          bottomDesc = const Center(
                             child: CircularProgressIndicator(),
                           );
                         });
@@ -218,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
-    final mapControllerCompleter = Completer<YandexMapController>();
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: Stack(
@@ -226,20 +217,11 @@ class _HomeScreenState extends State<HomeScreen> {
             YandexMap(
               key: mapKey,
               onMapCreated: (YandexMapController yandexMapController) async {
-              controller = yandexMapController;
-            },
-              onUserLocationAdded: (UserLocationView view) async {
-                return view.copyWith(
-                    pin: view.pin.copyWith(
-                        icon: PlacemarkIcon.single(PlacemarkIconStyle(
-                            image: BitmapDescriptor.fromAssetImage(
-                                'lib/assets/user.png')))),
-                    arrow: view.arrow.copyWith(
-                        icon: PlacemarkIcon.single(PlacemarkIconStyle(
-                            image: BitmapDescriptor.fromAssetImage(
-                                'lib/assets/arrow.png')))),
-                    accuracyCircle: view.accuracyCircle
-                        .copyWith(fillColor: Colors.green.withOpacity(0.5)));
+                controller = yandexMapController;
+                controller.moveCamera(CameraUpdate.newCameraPosition(
+                    CameraPosition(
+                        target: Point(latitude: 55.75, longitude: 37.6),
+                        zoom: 10)));
               },
             ),
             Padding(
@@ -414,6 +396,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                     onTap: () {
                                       setState(() {
                                         currentCity = cities[index];
+                                        controller.moveCamera(
+                                            CameraUpdate.newCameraPosition(
+                                                CameraPosition(
+                                                    target: Point(
+                                                        latitude: points[index]
+                                                            [0],
+                                                        longitude: points[index]
+                                                            [1]),
+                                                    zoom: 10)));
                                         height2 = 0;
                                       });
                                     },
@@ -447,6 +438,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                     onTap: () {
                                       setState(() {
                                         currentCity = cities[index];
+                                        controller.moveCamera(
+                                            CameraUpdate.newCameraPosition(
+                                                CameraPosition(
+                                                    target: Point(
+                                                        latitude: points[index]
+                                                            [0],
+                                                        longitude: points[index]
+                                                            [1]),
+                                                    zoom: 10)));
                                         height2 = 0;
                                       });
                                     },
@@ -478,8 +478,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       )
                     ]))),
-              
-            
           ],
         ));
   }
