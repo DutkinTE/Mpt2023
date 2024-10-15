@@ -1,14 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mpit2023/screens/home_screen.dart';
-import 'package:mpit2023/screens/loader.dart';
-import 'package:mpit2023/screens/login/firebase_stream.dart';
-import 'package:mpit2023/screens/login/login.dart';
-import 'package:mpit2023/screens/login/reset_password.dart';
-import 'package:mpit2023/screens/login/signin.dart';
-import 'package:mpit2023/screens/login/verify_email_screen.dart';
-import 'package:mpit2023/scripts/firebase_options.dart';
+import 'package:new_age/screens/home_screen.dart';
+import 'package:new_age/screens/loader.dart';
+import 'package:new_age/screens/login/firebase_stream.dart';
+import 'package:new_age/screens/login/login.dart';
+import 'package:new_age/screens/login/reset_password.dart';
+import 'package:new_age/screens/login/signin.dart';
+import 'package:new_age/screens/login/verify_email_screen.dart';
+import 'package:new_age/scripts/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

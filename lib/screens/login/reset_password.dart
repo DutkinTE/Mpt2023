@@ -2,8 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mpit2023/helpers/constans.dart';
-import 'package:mpit2023/scripts/snack_bar.dart';
+import 'package:new_age/helpers/constans.dart';
+import 'package:new_age/scripts/snack_bar.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -109,13 +109,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           ),
                         ),
                         const SizedBox(
-                          height: 42,
-                        ),
-                        Center(
-                            child:
-                                SvgPicture.asset('lib/assets/images/logo.svg')),
-                        const SizedBox(
-                          height: 42,
+                          height: 150,
                         ),
                         Center(
                           child: Text(

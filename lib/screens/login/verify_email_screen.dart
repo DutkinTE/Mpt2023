@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mpit2023/helpers/constans.dart';
-import 'package:mpit2023/screens/check_screen.dart';
+import 'package:new_age/helpers/constans.dart';
+import 'package:new_age/screens/check_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:mpit2023/screens/login/login.dart';
-import 'package:mpit2023/scripts/slider_animation.dart';
+import 'package:new_age/screens/login/login.dart';
+import 'package:new_age/scripts/slider_animation.dart';
 
 
 class VerifyEmailScreen extends StatefulWidget {
@@ -105,13 +104,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
               ),
               Text('Подтверждение', style: titleStyle, textAlign: TextAlign.center,),
               const SizedBox(
-                          height: 42,
-                        ),
-                        Center(
-                            child:
-                                SvgPicture.asset('lib/assets/images/logo.svg')),
-                        const SizedBox(
-                          height: 42,
+                          height: 150,
                         ),
               Text('Мы отправили письмо с подтверждением\nна электронную почту', style: subtitleStyle, textAlign: TextAlign.center,),
               

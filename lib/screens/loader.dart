@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mpit2023/screens/loader2.dart';
-import 'package:mpit2023/scripts/slider_animation.dart';
+import 'package:new_age/screens/loader2.dart';
+import 'package:new_age/scripts/slider_animation.dart';
 
 class LoaderScreen extends StatefulWidget {
   const LoaderScreen({super.key});
@@ -36,19 +36,6 @@ class _LoaderScreenState extends State<LoaderScreen> {
                         fontSize: 27,
                         fontFamily: 'Gilroy',
                         fontWeight: FontWeight.w600))),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 110.0),
-            child: Center(
-                child: Text('НОЧНИК',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 27,
-                        fontFamily: 'Gilroy',
-                        fontWeight: FontWeight.w600))),
-          ),
-          Center(
-            child: SvgPicture.asset('lib/assets/images/1.svg'),
           ),
           Align(
               alignment: Alignment.bottomRight,

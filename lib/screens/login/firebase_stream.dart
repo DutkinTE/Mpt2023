@@ -1,7 +1,7 @@
-import 'package:mpit2023/screens/check_screen.dart';
+import 'package:new_age/screens/check_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mpit2023/screens/login/verify_email_screen.dart';
+import 'package:new_age/screens/login/verify_email_screen.dart';
 
 
 class FirebaseStream extends StatelessWidget {

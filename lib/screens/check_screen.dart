@@ -1,6 +1,6 @@
 
-import 'package:mpit2023/screens/login/login.dart';
-import 'package:mpit2023/screens/home_screen.dart';
+import 'package:new_age/screens/login/login.dart';
+import 'package:new_age/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
